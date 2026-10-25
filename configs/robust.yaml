@@ -1,0 +1,44 @@
+# Robust : comme la baseline + augmentation par dégradations aléatoires sur GPU.
+run_name: robust
+seed: 42
+
+data:
+  root: data
+  img_size: 64
+  val_fraction: 0.1
+  num_workers: 2
+  augment:
+    rotation: 10
+    color_jitter: {brightness: 0.3, contrast: 0.3, saturation: 0.3, hue: 0.02}
+
+model:
+  name: resnet18
+  num_classes: 43
+  pretrained: true
+  remove_maxpool: true
+
+train:
+  epochs: 15
+  batch_size: 256
+  lr: 1.0e-3
+  weight_decay: 0.05
+  pct_start: 0.2
+  label_smoothing: 0.1
+  amp: true
+  log_every: 50
+
+robust:
+  enabled: true
+  p: 0.5                     # probabilité de dégrader un batch
+  severities: [1, 2, 3, 4, 5]
+  train_corruptions:         # type et niveau tirés au hasard à chaque batch dégradé
+    - gaussian_noise
+    - gaussian_blur
+    - fog
+    - rain
+    - dark
+    - overexposure
+    - occlusion
+  holdout_corruptions:       # jamais vues à l'entraînement : test de généralisation
+    - snow
+    - motion_blur

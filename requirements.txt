@@ -1,0 +1,8 @@
+# Colab fournit déjà torch/torchvision avec CUDA : pip ne les réinstalle pas si la version suffit.
+torch>=2.3
+torchvision>=0.18
+numpy
+pandas
+matplotlib
+pyyaml
+huggingface_hub   # optionnel : sauvegarde des checkpoints / résultats sur le Hub

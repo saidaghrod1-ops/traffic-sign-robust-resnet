@@ -1,0 +1,23 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Données (téléchargées par torchvision)
+data/
+
+# Checkpoints et archives
+*.pt
+*.pt.tmp
+*.pth
+*.zip
+
+# Jupyter
+.ipynb_checkpoints/
+
+# OS / éditeurs
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/

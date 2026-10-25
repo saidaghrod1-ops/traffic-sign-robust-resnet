@@ -1,0 +1,31 @@
+# Baseline : entraînement sur images propres (augmentations classiques légères uniquement).
+run_name: baseline
+seed: 42
+
+data:
+  root: data                 # relatif à la racine du dépôt
+  img_size: 64
+  val_fraction: 0.1          # 10 % des tracks de chaque classe
+  num_workers: 2
+  augment:
+    rotation: 10             # ±10° ; pas de flip horizontal (il change le sens des panneaux)
+    color_jitter: {brightness: 0.3, contrast: 0.3, saturation: 0.3, hue: 0.02}
+
+model:
+  name: resnet18             # ou resnet50 (--model resnet50)
+  num_classes: 43
+  pretrained: true           # poids ImageNet
+  remove_maxpool: true       # 64x64 -> layer4 en 4x4
+
+train:
+  epochs: 15
+  batch_size: 256
+  lr: 1.0e-3                 # max_lr du OneCycleLR
+  weight_decay: 0.05         # AdamW
+  pct_start: 0.2
+  label_smoothing: 0.1
+  amp: true
+  log_every: 50              # batches
+
+robust:
+  enabled: false
