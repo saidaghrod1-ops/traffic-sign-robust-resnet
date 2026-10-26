@@ -1,0 +1,50 @@
+09:23:49 | Checkpoint local absent : tentative de récupération depuis le Hugging Face Hub
+09:23:49 | Aucun checkpoint trouvé (/content/traffic-sign-robust-resnet/results/robust/last.pt) : entraînement depuis le début
+09:44:06 | Checkpoint local absent : tentative de récupération depuis le Hugging Face Hub
+09:44:06 | Aucun checkpoint trouvé (/content/traffic-sign-robust-resnet/results/robust/last.pt) : entraînement depuis le début
+09:44:07 | Run 'robust' | device cuda (Tesla T4)
+09:44:07 | Train 23880 images (796 tracks) | val 2760 images (92 tracks) | 93 batches/époque
+09:44:07 | Mode robust : p=0.5, dégradations ['gaussian_noise', 'gaussian_blur', 'fog', 'rain', 'dark', 'overexposure', 'occlusion'], non vues ['snow', 'motion_blur']
+09:44:35 |   époque 1 | batch 50/93 | loss 2.7477 | acc 35.13%
+09:44:59 | Époque 1/15 | train loss 2.1235 acc 54.75% | val loss 1.1017 acc 86.09% * | lr 2.82e-04 | 51s
+09:45:43 |   époque 2 | batch 50/93 | loss 1.1062 | acc 87.51%
+09:46:07 | Époque 2/15 | train loss 1.0088 acc 90.66% | val loss 1.0435 acc 89.38% * | lr 7.63e-04 | 50s
+09:46:51 |   époque 3 | batch 50/93 | loss 0.9955 | acc 90.91%
+09:47:14 | Époque 3/15 | train loss 0.9403 acc 92.58% | val loss 0.8219 acc 96.85% * | lr 1.00e-03 | 49s
+09:47:57 |   époque 4 | batch 50/93 | loss 0.8096 | acc 96.57%
+09:48:21 | Époque 4/15 | train loss 0.8378 acc 95.54% | val loss 0.9928 acc 90.40% | lr 9.83e-04 | 49s
+09:48:59 |   époque 5 | batch 50/93 | loss 0.8482 | acc 95.24%
+09:49:22 | Époque 5/15 | train loss 0.8754 acc 94.31% | val loss 0.7499 acc 98.48% * | lr 9.32e-04 | 50s
+09:50:06 |   époque 6 | batch 50/93 | loss 0.8043 | acc 96.47%
+09:50:30 | Époque 6/15 | train loss 0.8004 acc 96.55% | val loss 0.7241 acc 99.09% * | lr 8.53e-04 | 49s
+09:51:13 |   époque 7 | batch 50/93 | loss 0.7606 | acc 97.72%
+09:51:36 | Époque 7/15 | train loss 0.7884 acc 96.82% | val loss 0.7362 acc 98.88% | lr 7.49e-04 | 49s
+09:52:14 |   époque 8 | batch 50/93 | loss 0.8054 | acc 96.10%
+09:52:37 | Époque 8/15 | train loss 0.8170 acc 95.80% | val loss 0.7639 acc 98.04% | lr 6.28e-04 | 49s
+09:53:16 |   époque 9 | batch 50/93 | loss 0.7564 | acc 97.82%
+09:53:39 | Époque 9/15 | train loss 0.7569 acc 97.79% | val loss 0.7209 acc 99.35% * | lr 4.99e-04 | 48s
+09:54:22 |   époque 10 | batch 50/93 | loss 0.7756 | acc 97.07%
+09:54:45 | Époque 10/15 | train loss 0.7596 acc 97.55% | val loss 0.7088 acc 99.49% * | lr 3.69e-04 | 49s
+09:55:27 |   époque 11 | batch 50/93 | loss 0.7587 | acc 97.66%
+09:55:50 | Époque 11/15 | train loss 0.7598 acc 97.61% | val loss 0.7193 acc 99.28% | lr 2.49e-04 | 49s
+09:56:28 |   époque 12 | batch 50/93 | loss 0.7359 | acc 98.41%
+09:56:52 | Époque 12/15 | train loss 0.7472 acc 97.99% | val loss 0.7137 acc 99.17% | lr 1.45e-04 | 49s
+09:57:28 |   époque 13 | batch 50/93 | loss 0.7418 | acc 98.15%
+09:57:52 | Époque 13/15 | train loss 0.7312 acc 98.52% | val loss 0.7102 acc 99.42% | lr 6.63e-05 | 49s
+09:58:29 |   époque 14 | batch 50/93 | loss 0.7541 | acc 97.68%
+09:58:52 | Époque 14/15 | train loss 0.7422 acc 98.09% | val loss 0.7084 acc 99.42% | lr 1.67e-05 | 48s
+09:59:30 |   époque 15 | batch 50/93 | loss 0.7170 | acc 98.88%
+09:59:53 | Époque 15/15 | train loss 0.7227 acc 98.75% | val loss 0.7088 acc 99.35% | lr 5.98e-09 | 48s
+10:00:07 | Terminé. Meilleure val acc : 99.49% -> /content/traffic-sign-robust-resnet/results/robust/best.pt
+10:17:54 | Reprise depuis /content/traffic-sign-robust-resnet/results/robust/last.pt (époque 15 terminée)
+10:17:55 | Run 'robust' | device cuda (Tesla T4)
+10:17:55 | Train 23880 images (796 tracks) | val 2760 images (92 tracks) | 93 batches/époque
+10:17:55 | Mode robust : p=0.5, dégradations ['gaussian_noise', 'gaussian_blur', 'fog', 'rain', 'dark', 'overexposure', 'occlusion'], non vues ['snow', 'motion_blur']
+10:17:55 | Entraînement déjà terminé (15/15 époques, meilleure val acc 99.49%)
+10:17:56 | Terminé. Meilleure val acc : 99.49% -> /content/traffic-sign-robust-resnet/results/robust/best.pt
+11:26:46 | Reprise depuis /content/traffic-sign-robust-resnet/results/robust/last.pt (époque 15 terminée)
+11:26:47 | Run 'robust' | device cuda (Tesla T4)
+11:26:47 | Train 23880 images (796 tracks) | val 2760 images (92 tracks) | 93 batches/époque
+11:26:47 | Mode robust : p=0.5, dégradations ['gaussian_noise', 'gaussian_blur', 'fog', 'rain', 'dark', 'overexposure', 'occlusion'], non vues ['snow', 'motion_blur']
+11:26:47 | Entraînement déjà terminé (15/15 époques, meilleure val acc 99.49%)
+11:26:48 | Terminé. Meilleure val acc : 99.49% -> /content/traffic-sign-robust-resnet/results/robust/best.pt

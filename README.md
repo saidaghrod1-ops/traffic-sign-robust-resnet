@@ -168,23 +168,78 @@ Cette section est remplie automatiquement par `python -m src.evaluate --update-r
 ### Robustesse aux dégradations
 
 <!-- RESULTS:START -->
-_En attente : lancez `python -m src.evaluate --runs baseline robust --baseline baseline --update-readme`._
+_Généré par `src/evaluate.py` le 2026-10-26 11:29 — GTSRB test, 12630 images, 9 dégradations x 5 niveaux. CE et mCE relatifs à `baseline` (100 %)._
+
+#### Résumé
 
 | Modèle | Acc. propre | Acc. moy. dégradée | mCE | mCE (vues) | mCE (non vues) | ECE propre | ECE dégradée |
 |---|---|---|---|---|---|---|---|
-| baseline | … | … | 100 % | … | … | … | … |
-| robust | … | … | … | … | … | … | … |
+| baseline | 99.1 % | 78.1 % | 100.0 % | 100.0 % | 100.0 % | 10.6 % | 10.6 % |
+| robust | 98.9 % | 89.9 % | 61.7 % | 62.0 % | 60.4 % | 10.4 % | 9.4 % |
+
+#### Par type de dégradation (précision moyenne sur les niveaux)
+
+| Dégradation | Vue par robust | Acc baseline | Acc robust | CE robust |
+|---|---|---|---|---|
+| gaussian_noise | oui | 72.8 % | 88.3 % | 42.8 % |
+| gaussian_blur | oui | 98.2 % | 98.3 % | 95.1 % |
+| motion_blur | non | 93.9 % | 94.5 % | 91.4 % |
+| fog | oui | 72.7 % | 89.9 % | 36.9 % |
+| rain | oui | 52.7 % | 86.5 % | 28.6 % |
+| snow | non | 61.9 % | 88.8 % | 29.4 % |
+| dark | oui | 82.1 % | 82.0 % | 100.6 % |
+| overexposure | oui | 88.3 % | 90.0 % | 85.3 % |
+| occlusion | oui | 79.9 % | 91.0 % | 44.9 % |
+
+![Précision en fonction du niveau](results/figures/acc_vs_severity.png)
+
+![Courbes d'entraînement](results/figures/training_curves.png)
 <!-- RESULTS:END -->
 
 ### Adaptation BatchNorm au test
 
 <!-- BN_ADAPT:START -->
-_En attente : lancez `python -m src.bn_adapt --runs baseline robust --update-readme`._
+_Précision moyenne sur les niveaux ; statistiques BN réestimées sur 2048 images dégradées non étiquetées (généré par `src/bn_adapt.py`)._
+
+| Dégradation | baseline | baseline + BN | robust | robust + BN |
+|---|---|---|---|---|
+| clean | 99.1 % | 99.0 % | 98.8 % | 98.9 % |
+| gaussian_noise | 72.8 % | 88.1 % | 88.3 % | 92.6 % |
+| gaussian_blur | 98.2 % | 98.7 % | 98.3 % | 98.7 % |
+| motion_blur | 93.9 % | 94.4 % | 94.5 % | 95.2 % |
+| fog | 72.7 % | 80.0 % | 89.9 % | 95.4 % |
+| rain | 52.8 % | 69.9 % | 86.5 % | 90.1 % |
+| snow | 61.9 % | 78.5 % | 88.8 % | 93.1 % |
+| dark | 82.1 % | 84.5 % | 82.0 % | 94.8 % |
+| overexposure | 88.3 % | 88.1 % | 90.0 % | 92.5 % |
+| occlusion | 79.9 % | 82.9 % | 91.0 % | 91.4 % |
+| moyenne dégradée | 78.1 % | 85.0 % | 89.9 % | 93.7 % |
+
+![Adaptation BN](results/figures/bn_adapt.png)
 <!-- BN_ADAPT:END -->
 
 ### Grad-CAM
 
-Figures générées par `python -m src.gradcam` : `results/figures/gradcam_fog_s4.png` et `results/figures/gradcam_snow_s4.png`.
+![Grad-CAM, brouillard niveau 4](results/figures/gradcam_fog_s4.png)
+
+![Grad-CAM, neige niveau 4](results/figures/gradcam_snow_s4.png)
+
+### Analyse
+
+Les chiffres ci-dessous viennent des tableaux précédents, calculés sur les 12 630 images de test.
+
+1. **La robustesse ne coûte presque rien sur les images propres.** La précision passe de 99,1 % à 98,9 % (−0,25 point). En moyenne sur les 45 conditions dégradées, elle passe de 78,1 % à 89,9 % (+11,8 points), soit une **mCE de 61,7 %** : le modèle robust fait 38 % d'erreurs en moins que la baseline sous dégradation.
+2. **Les plus gros gains concernent la pluie, le brouillard, le bruit et l'occlusion.** Au niveau 5, la baseline tombe à 22,7 % sous la pluie et 45,3 % dans le brouillard, contre 68,7 % et 74,4 % pour le modèle robust.
+3. **La robustesse se transfère à la neige, jamais vue à l'entraînement.** Sa CE est de 29,4 % (précision moyenne de 61,9 % à 88,8 %), aussi bonne que pour les dégradations vues. La neige combine des éléments présents dans les dégradations d'entraînement : traits clairs (pluie), blanchiment (brouillard), perturbations locales (bruit, occlusion). Pour `motion_blur`, l'autre dégradation non vue, le gain est faible (CE 91,4 %), mais la baseline y est déjà robuste (93,9 %).
+4. **Exception : `dark` n'est pas améliorée (CE 100,6 %) alors qu'elle fait partie de l'entraînement.** L'adaptation BN la corrige presque entièrement pour le modèle robust (82,0 % → 94,8 %). Hypothèse : l'assombrissement gamma est surtout un décalage global de l'intensité. Le réseau le gère quand les statistiques BN correspondent, mais en entraînement, les statistiques sont une moyenne entre batchs propres et batchs dégradés de tous types.
+5. **L'adaptation BN est gratuite et complémentaire.** Sans étiquettes ni réentraînement, elle apporte +6,9 points à la baseline (78,1 % → 85,0 %) et +3,8 points au modèle robust (89,9 % → 93,7 %, le meilleur résultat), sans effet notable sur les images propres (±0,1 point). Elle n'aide pas pour l'occlusion (91,0 % → 91,4 %) : une dégradation locale ne déplace pas les statistiques globales des activations.
+6. **Calibration : les deux modèles sont sous-confiants.** Sur le test propre, leur confiance moyenne est de 88,5 % pour une précision de 99,1 %. L'écart (10,5 points) correspond à l'ECE mesurée. C'est l'effet attendu du label smoothing 0,1, qui pousse la probabilité de la bonne classe vers 0,90 environ.
+7. **Grad-CAM** : sur les 6 panneaux affichés, les deux modèles regardent le panneau lui-même, en propre comme en dégradé. Sous la neige, la baseline confond « Sens interdit » avec « Stop », alors que le modèle robust ne se trompe pas. Six exemples ne suffisent pas à généraliser.
+
+**Limites.**
+- Les flous sont trop faibles à 64×64 : la baseline garde 96,3 % au niveau 5 du flou gaussien, donc ces deux types discriminent peu les modèles.
+- Un seul entraînement par configuration : il n'y a pas de barres d'erreur sur plusieurs seeds.
+- L'adaptation BN utilise les images de test dégradées (sans leurs étiquettes) : c'est une adaptation transductive.
 
 ## Références
 
