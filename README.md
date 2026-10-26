@@ -107,11 +107,11 @@ La baseline a une mCE de 100 % par définition. En dessous de 100 %, le modèle 
 
 Le code tourne sur un serveur Colab distant. Le notebook télécharge tout lui-même : code (git clone), dépendances, GTSRB et poids ImageNet. Google Drive n'est pas utilisé, car il ne peut pas être monté depuis l'extension VS Code.
 
-1. **Pousser ce dépôt sur GitHub.** Un dépôt public est le plus simple. Pour un dépôt privé, définissez `GITHUB_TOKEN` dans le notebook avant la cellule 2.
+1. Le dépôt est public : https://github.com/saidaghrod1-ops/traffic-sign-robust-resnet. Pour travailler sur un fork privé, définissez `GITHUB_TOKEN` dans le notebook avant la cellule 2.
 2. Dans VS Code, installer les extensions **Google Colab** (éditeur : Google) et **Jupyter**.
 3. Ouvrir `notebooks/colab_train.ipynb`.
 4. En haut à droite : **Select Kernel → Colab → New Colab Server → GPU → T4**, donner un nom au serveur, puis se connecter avec son compte Google.
-5. Dans la cellule 2, remplacer `REPO_URL` par l'URL de votre dépôt.
+5. La cellule 2 clone déjà ce dépôt (`REPO_URL`). Remplacez cette URL uniquement si vous utilisez un fork.
 6. Exécuter les cellules dans l'ordre (ou **Run All**). La cellule 1 s'arrête avec un message clair si aucun GPU n'est disponible.
 
 **Coupure de session.** Relancez la cellule 2 (elle fait un `git pull` si le dépôt existe déjà), puis la cellule d'entraînement interrompue : `--resume` reprend à l'époque qui suit le dernier `last.pt`. Si le run est terminé, la cellule s'arrête immédiatement.
